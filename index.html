@@ -7,11 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #24A1DE; /* لون اللوجو الأزرق */
-            --secondary: #FF3D00; /* لون الـ N الأحمر */
+            --primary: #24A1DE;
+            --secondary: #FF3D00;
             --bg-dark: #0f172a;
             --text-light: #ffffff;
-            --success: #10a37f; /* لون شات جي بي تي */
+            --success: #10a37f;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
@@ -27,15 +27,17 @@
             position: relative;
         }
 
-        /* الشعار في الأعلى */
+        /* تعديل كود الصورة عشان تظهر بشكل مظبوط */
         .top-logo {
-            width: 120px;
+            width: 150px; /* كبرت الحجم شوية */
+            max-width: 80%;
             margin-bottom: 20px;
             z-index: 100;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            border-radius: 15px; /* تدوير الحواف */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15); /* ظل للصورة */
+            display: block;
         }
 
-        /* الحاويات (الصفحات) */
         .container-card {
             background: white;
             padding: 40px 30px;
@@ -46,7 +48,7 @@
             text-align: center;
             transition: 0.3s;
             z-index: 10;
-            display: none; /* مخفي افتراضيا */
+            display: none;
             animation: slideUp 0.5s ease;
         }
 
@@ -55,7 +57,7 @@
         h1 { color: #202124; font-size: 24px; margin-bottom: 10px; }
         p.subtitle { color: #5f6368; font-size: 15px; margin-bottom: 30px; line-height: 1.6; }
 
-        /* --- صفحة 1: زرار جوجل المحسن --- */
+        /* زرار جوجل */
         .google-btn {
             background: white;
             color: #3c4043;
@@ -75,7 +77,6 @@
             position: relative;
         }
         .google-btn:hover { background: #f7fafe; border-color: #d2e3fc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .google-btn:active { background: #f1f3f4; }
         
         .loading-spinner {
             border: 3px solid #f3f3f3; border-top: 3px solid var(--primary);
@@ -84,7 +85,7 @@
             position: absolute; display: none;
         }
 
-        /* --- صفحة 2: النموذج (Google Forms Style) --- */
+        /* النموذج */
         .form-group { text-align: right; margin-bottom: 20px; }
         .form-label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
         .form-input {
@@ -101,7 +102,7 @@
         }
         .submit-btn:hover { background: #1b8ec7; box-shadow: 0 4px 15px rgba(36, 161, 222, 0.3); }
 
-        /* --- صفحة 3: الخلفية الـ AI الجبارة --- */
+        /* الصفحة الأخيرة */
         #finalPage {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-dark); display: none;
@@ -109,7 +110,6 @@
             color: white; z-index: 200;
         }
 
-        /* خلفية الشبكة العصبية المتحركة */
         #ai-background {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; opacity: 0.6;
@@ -154,7 +154,7 @@
 </head>
 <body>
 
-    <img src="https://i.imgur.com/5u1q44K.png" class="top-logo" id="mainLogo" alt="Free Plus Cookies Logo">
+    <img src="logo.jpg" class="top-logo" id="mainLogo" alt="شعار المسابقة">
 
     <div class="container-card" id="loginPage">
         <h1>تسجيل الدخول للمسابقة</h1>
@@ -185,7 +185,9 @@
     </div>
 
     <div id="finalPage">
-        <canvas id="ai-background"></canvas> <img src="https://i.imgur.com/5u1q44K.png" class="top-logo" style="filter: brightness(0) invert(1);">
+        <canvas id="ai-background"></canvas>
+        
+        <img src="logo.jpg" class="top-logo" style="border: 2px solid white;">
 
         <div class="final-card">
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;">
@@ -209,15 +211,12 @@
         </div>
     </div>
 
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // ============================================================
-        // 🔴🔴🔴 منطقة التعديل: حط الكود بتاعك هنا تاني 🔴🔴🔴
-        // ============================================================
+        // 🔴🔴🔴 إعدادات مشروعك 🔴🔴🔴
         const firebaseConfig = {
             apiKey: "AIzaSyBem6YX1d5KwGjG-uGXw5EXgY3_QEqPHzw",
             authDomain: "uyfyktkjg.firebaseapp.com",
@@ -227,33 +226,24 @@
             appId: "1:212734262562:web:4e1d655d31f6f15fe3f97b",
             measurementId: "G-SGP1PJYTB7"
         };
-        // ============================================================
 
-        // تشغيل الخدمات
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
-        const db = getFirestore(app); // تشغيل قاعدة البيانات
+        const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
         let currentUser = null;
         let generatedCode = null;
 
-        // 1. مراقب تسجيل الدخول (أهم دالة)
-        // دي بتشتغل أول ما الموقع يفتح بتشوف هو مسجل ولا لأ
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // المستخدم مسجل دخول
                 currentUser = user;
-                console.log("User logged in:", user.uid);
-                // نتأكد هل سجل بياناته قبل كده في قاعدة البيانات؟
                 checkIfUserSubmittedData(user.uid);
             } else {
-                // غير مسجل، نظهر صفحة الدخول
                 showPage('loginPage');
             }
         });
 
-        // 2. زرار دخول جوجل
         const loginBtn = document.getElementById('googleLoginBtn');
         const btnLoader = document.getElementById('btnLoader');
         
@@ -271,24 +261,18 @@
                 });
         });
 
-        // 3. التحقق من قاعدة البيانات
         async function checkIfUserSubmittedData(userId) {
             const docRef = doc(db, "submissions", userId);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                // المستخدم ده سجل بياناته قبل كده!
-                console.log("User data found, showing code directly.");
-                generatedCode = docSnap.data().code; // نجيب الكود بتاعه القديم
+                generatedCode = docSnap.data().code;
                 showFinalPage();
             } else {
-                // مستخدم جديد، نظهر له النموذج
-                console.log("No data found, showing form.");
                 showPage('formPage');
             }
         }
 
-        // 4. إرسال النموذج وحفظ البيانات
         window.submitData = async function() {
             const fullName = document.getElementById('fullName').value;
             const telegramID = document.getElementById('telegramID').value;
@@ -298,10 +282,8 @@
                 return;
             }
 
-            // توليد كود جديد
             generatedCode = "GPT-" + Math.random().toString(36).substring(2, 9).toUpperCase();
 
-            // حفظ البيانات في Firestore (قاعدة البيانات الآمنة)
             try {
                 await setDoc(doc(db, "submissions", currentUser.uid), {
                     name: fullName,
@@ -310,15 +292,12 @@
                     code: generatedCode,
                     timestamp: new Date()
                 });
-                // بعد الحفظ بنجاح، نظهر صفحة النهاية
                 showFinalPage();
             } catch (e) {
-                alert("حدث خطأ أثناء حفظ البيانات. حاول مرة أخرى.");
-                console.error("Error adding document: ", e);
+                alert("حدث خطأ أثناء حفظ البيانات.");
             }
         }
 
-        // 5. وظائف المساعدة (التنقل والنسخ)
         function showPage(pageId) {
             document.querySelectorAll('.container-card').forEach(el => el.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
@@ -331,7 +310,7 @@
             document.getElementById('mainLogo').style.display = 'none';
             document.getElementById('finalPage').style.display = 'flex';
             document.getElementById('finalCodeDisplay').innerText = generatedCode;
-            initAIBackground(); // تشغيل خلفية الذكاء الاصطناعي
+            initAIBackground();
         }
 
         window.copyAndRedirect = function() {
@@ -341,9 +320,6 @@
             });
         }
 
-        // ==========================================
-        // خلفية الـ AI المتحركة (Canvas Animation)
-        // ==========================================
         function initAIBackground() {
             const canvas = document.getElementById('ai-background');
             const ctx = canvas.getContext('2d');
@@ -406,6 +382,5 @@
             animate();
         }
     </script>
-
 </body>
 </html>
